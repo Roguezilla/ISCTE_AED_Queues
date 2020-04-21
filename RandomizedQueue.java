@@ -1,6 +1,8 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+//import edu.princeton.cs.algs4.StdRandom;
+
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] items;
     private int n = 0;
@@ -51,6 +53,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         return returned;
     }
+
     // return a random item (but do not remove it)
     public Item sample() {
         if (isEmpty()) throw new NoSuchElementException();
@@ -87,7 +90,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return this.iteratorN > 0;
+            return this.iteratorN != 0;
         }
 
         @Override
@@ -114,5 +117,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         System.out.println(rq.sample());
         rq.forEach(System.out::print);
         System.out.println(rq.size());
+        rq.dequeue();
+        System.out.println(rq.iterator().hasNext());
+        rq.dequeue();
+        System.out.println(rq.iterator().hasNext());
     }
 }
