@@ -3,17 +3,20 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
     private class Node {
-        private Item item;
-        private Node prevNode;
-        private Node nextNode;
+        private Item item  = null;
+        private Node prevNode = null;
+        private Node nextNode = null;
     }
 
-    private Node firstNode = null, lastNode = null;
-    private int size = 0;
+    private Node firstNode;
+    private Node lastNode;
+    private int size;
 
     // construct an empty deque
     public Deque() {
-
+        this.firstNode = null;
+        this.lastNode = null;
+        this.size = 0;
     }
 
     // is the deque empty?
@@ -30,6 +33,15 @@ public class Deque<Item> implements Iterable<Item> {
     public void addFirst(Item item) {
         if (item == null) throw new NullPointerException();
 
+        /*
+        1.  save current first node
+        2.  create a new node in the place of the current first node
+        3.  set the item for the new first node
+        4.1 if the queue is empty then set the last node to be equal to the first node
+        4.2 if the queue isnt empty then set the new first node as the previous node for the old first node
+            and set the old first node as the next node for the the new first node
+        5.  increment the size of the queue
+        */
         Node oldFirstNode = this.firstNode;
         firstNode = new Node();
         firstNode.item = item;
@@ -39,7 +51,6 @@ public class Deque<Item> implements Iterable<Item> {
         } else {
             oldFirstNode.prevNode = firstNode;
             firstNode.nextNode = oldFirstNode;
-            firstNode.prevNode = null;
         }
 
         size++;
@@ -49,6 +60,15 @@ public class Deque<Item> implements Iterable<Item> {
     public void addLast(Item item) {
         if (item == null) throw new NullPointerException();
 
+        /*
+        1.  save the old last node
+        2.  create a new node in the place of the last node
+        3.  set the item for the new last node
+        4.1 if the queue is empty then set the first node to be equal to the new last node
+        4.2 if the queue isnt empty then set the new last node as the next node for the old last node and
+            set the old last node as the previous node for the new last node
+        5.  increment the of the queue
+        */
         Node oldLastNode = this.lastNode;
         lastNode = new Node();
         lastNode.item = item;
@@ -57,7 +77,6 @@ public class Deque<Item> implements Iterable<Item> {
             this.firstNode = lastNode;
         } else {
             oldLastNode.nextNode = lastNode;
-            lastNode.nextNode = null;
             lastNode.prevNode = oldLastNode;
         }
 
@@ -68,11 +87,19 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeFirst() {
         if (this.isEmpty()) throw new NoSuchElementException();
 
-        Item item = firstNode.item;
+        /*
+        1.  save the item of the first node as we will have to remove it
+        2.  decrement the size of the queue
+        3.1 if the queue isnt empty then we set the current first node to its next node and now that
+            our first node is the next node of the old first node we delete the old first node by
+            setting the previous node of the current first node to null
+        3.2 if the queue is empty then we delete both nodes by setting them to null
+        */
+        Item item = this.firstNode.item;
         this.size--;
 
         if (!this.isEmpty()) {
-            this.firstNode = firstNode.nextNode;
+            this.firstNode = this.firstNode.nextNode;
             this.firstNode.prevNode = null;
         } else {
             this.firstNode = null;
@@ -86,6 +113,14 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeLast() {
         if (this.isEmpty()) throw new NoSuchElementException();
 
+        /*
+        1.  save the item of the last node as we will have to remove it
+        2.  decrement the size of the queue
+        3.1 if the queue isnt empty then we set the current last node to its previous node and now that
+            our last node is the previous node of the old last node we delete the old last node by
+            setting the next node of the current last node to null
+        3.2 if the queue is empty then we delete both nodes by setting them to null
+        */
         Item item = lastNode.item;
         this.size--;
 
@@ -102,10 +137,10 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-        return new CustomIterator();
+        return new DequeIterator();
     }
 
-    private class CustomIterator implements Iterator<Item> {
+    private class DequeIterator implements Iterator<Item> {
         private Node currentNode = firstNode;
 
         @Override
@@ -117,6 +152,10 @@ public class Deque<Item> implements Iterable<Item> {
         public Item next() {
             if (!this.hasNext()) throw new NoSuchElementException();
 
+            /*
+            1. save the current node's item
+            2. advance to the next node available
+            */
             Item item = this.currentNode.item;
 
             this.currentNode = this.currentNode.nextNode;
