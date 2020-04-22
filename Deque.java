@@ -21,12 +21,12 @@ public class Deque<Item> implements Iterable<Item> {
 
     // is the deque empty?
     public boolean isEmpty() {
-        return size == 0;
+        return this.size == 0;
     }
 
     // return the number of items on the deque
     public int size() {
-        return size;
+        return this.size;
     }
 
     // add the item to the front
@@ -43,17 +43,17 @@ public class Deque<Item> implements Iterable<Item> {
         5.  increment the size of the queue
         */
         Node oldFirstNode = this.firstNode;
-        firstNode = new Node();
-        firstNode.item = item;
+        this.firstNode = new Node();
+        this.firstNode.item = item;
 
         if(this.isEmpty()) {
-            this.lastNode = firstNode;
+            this.lastNode = this.firstNode;
         } else {
-            oldFirstNode.prevNode = firstNode;
-            firstNode.nextNode = oldFirstNode;
+            oldFirstNode.prevNode = this.firstNode;
+            this.firstNode.nextNode = oldFirstNode;
         }
 
-        size++;
+        this.size++;
     }
 
     // add the item to the back
@@ -70,17 +70,17 @@ public class Deque<Item> implements Iterable<Item> {
         5.  increment the of the queue
         */
         Node oldLastNode = this.lastNode;
-        lastNode = new Node();
-        lastNode.item = item;
+        this.lastNode = new Node();
+        this.lastNode.item = item;
 
         if(this.isEmpty()) {
-            this.firstNode = lastNode;
+            this.firstNode = this.lastNode;
         } else {
-            oldLastNode.nextNode = lastNode;
-            lastNode.prevNode = oldLastNode;
+            oldLastNode.nextNode = this.lastNode;
+            this.lastNode.prevNode = oldLastNode;
         }
 
-        size++;
+        this.size++;
     }
 
     // remove and return the item from the front
@@ -121,11 +121,11 @@ public class Deque<Item> implements Iterable<Item> {
             setting the next node of the current last node to null
         3.2 if the queue is empty then we delete both nodes by setting them to null
         */
-        Item item = lastNode.item;
+        Item item = this.lastNode.item;
         this.size--;
 
         if (!this.isEmpty()) {
-            this.lastNode = lastNode.prevNode;
+            this.lastNode = this.lastNode.prevNode;
             this.lastNode.nextNode = null;
         } else {
             this.firstNode = null;

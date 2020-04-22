@@ -56,7 +56,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         //shrinking an arrays to half when they are 1/4 full is the best is the most efficient way to preserve memory
         if (this.n == this.items.length / 4) {
-            resize(items.length / 2);
+            resize(this.items.length / 2);
         }
 
         return returned;
@@ -76,7 +76,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             enlarged[i] = this.items[i];
         }
 
-        items = enlarged;
+        this.items = enlarged;
     }
 
     // return an independent iterator over items in random order
