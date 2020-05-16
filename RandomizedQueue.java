@@ -9,7 +9,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // construct an empty randomized queue
     public RandomizedQueue() {
-        this.items = (Item[])(new Object[1]);
+        this.items = (Item[])(new Object[2]);
     }
 
     // is the randomized queue empty?
