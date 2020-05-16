@@ -21,7 +21,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // is the deque empty?
     public boolean isEmpty() {
-        return this.size == 0;
+        return this.size() == 0;
     }
 
     // return the number of items on the deque
@@ -37,7 +37,7 @@ public class Deque<Item> implements Iterable<Item> {
         1.  save current first node
         2.  create a new node in the place of the current first node
         3.  set the item for the new first node
-        4.1 if the queue is empty then set the last node to be equal to the first node
+        4.1 if the queue is empty then set the last node to be equal to the first node basically "connecting" them
         4.2 if the queue isnt empty then set the new first node as the previous node for the old first node
             and set the old first node as the next node for the the new first node
         5.  increment the size of the queue
@@ -64,7 +64,7 @@ public class Deque<Item> implements Iterable<Item> {
         1.  save the old last node
         2.  create a new node in the place of the last node
         3.  set the item for the new last node
-        4.1 if the queue is empty then set the first node to be equal to the new last node
+        4.1 if the queue is empty then set the first node to be equal to the new last node basically "connecting" them
         4.2 if the queue isnt empty then set the new last node as the next node for the old last node and
             set the old last node as the previous node for the new last node
         5.  increment the of the queue

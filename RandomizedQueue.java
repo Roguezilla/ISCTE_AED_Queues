@@ -9,7 +9,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // construct an empty randomized queue
     public RandomizedQueue() {
-        this.items = (Item[])(new Object[10]);
+        this.items = (Item[])(new Object[1]);
     }
 
     // is the randomized queue empty?
@@ -54,7 +54,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         this.items[idx] = this.items[this.n];
         this.items[n] = null;
 
-        //shrinking an arrays to half when they are 1/4 full is the best and the most efficient way to preserve memory or something
+        //shrinking an array to half when they are 1/4 full is the best and the most efficient way to preserve memory or something
         if (this.n == this.items.length / 4) {
             resize(this.items.length / 2);
         }
