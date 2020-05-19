@@ -1,7 +1,7 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-//import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] items;
@@ -14,7 +14,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // is the randomized queue empty?
     public boolean isEmpty() {
-        return this.n == 0;
+        return this.size() == 0;
     }
 
     // return the number of items on the randomized queue
@@ -45,17 +45,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         Item returned = this.items[idx];
 
         /*
-        1. decrement n as we want the last non null item from the queue array
-        2. as we saved the item at idx we can override the item that position with the item at n,
-            this way we dont have nulls in the range of [0, n[
-        3. set the item at n to null, not really needed as we work in the range of [0, n[
+        1. set the value at idx to the value of the last item in the array
+        2. set the item at n - 1 to null as we moved to another place
+        3. decrement the size of our queue
         */
-        this.n--;
-        this.items[idx] = this.items[this.n];
-        this.items[n] = null;
+        this.items[idx] = this.items[n - 1];
+        this.items[n - 1] = null;
 
-        //shrinking an array to half when they are 1/4 full is the best and the most efficient way to preserve memory or something
-        if (this.n == this.items.length / 4) {
+        this.n--;
+
+        //shrinking an array to half when it's 1/4 full is the best and the most efficient way to preserve memory or something
+        //also check if size if bigger than 0 as 0 == 0/4
+        if (this.n > 0 && this.n == this.items.length / 4) {
             resize(this.items.length / 2);
         }
 
@@ -81,14 +82,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
-        return new CustomIterator();
+        return new RQueueIterator();
     }
 
-    private class CustomIterator implements Iterator<Item> {
+    private class RQueueIterator implements Iterator<Item> {
         private Item[] iteratorItems = (Item[])(new Object[n]);
         private int iteratorN = n;
 
-        public CustomIterator() {
+        public RQueueIterator() {
             /*
                 "The order of two or more iterators to the same randomized queue must be mutually independent;
                 each iterator must maintain its own random order."
@@ -127,12 +128,5 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue("b");
         rq.enqueue("c");
         System.out.println(rq.dequeue());
-        System.out.println(rq.sample());
-        rq.forEach(System.out::print);
-        System.out.println(rq.size());
-        rq.dequeue();
-        System.out.println(rq.iterator().hasNext());
-        rq.dequeue();
-        System.out.println(rq.iterator().hasNext());
     }
 }
