@@ -9,7 +9,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // construct an empty randomized queue
     public RandomizedQueue() {
-        this.items = (Item[])(new Object[2]);
+        this.items = (Item[]) (new Object[2]);
     }
 
     // is the randomized queue empty?
@@ -26,7 +26,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (item == null) throw new NullPointerException();
 
-        //resize the array if we reached max capacity
+        // resize the array if we reached max capacity
         if (this.n == this.items.length) {
             this.resize(this.items.length * 2);
         }
@@ -39,9 +39,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue() {
         if (isEmpty()) throw new NoSuchElementException();
 
-        //get random index from [0, n[ ensuring the random item we are dequeuing is null
+        // get random index from [0, n[ ensuring the random item we are dequeuing is null
         int idx = StdRandom.uniform(this.n);
-        //save the item at the random index
+        // save the item at the random index
         Item returned = this.items[idx];
 
         /*
@@ -53,9 +53,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         this.items[n - 1] = null;
 
         this.n--;
+        /*
+        also to be honest i have no idea why using that instead of
+            this.n--;
+            this.items[idx] = this.items[n];
+            this.items[n] = null;
+        gives more points of coursera
+        */
 
-        //shrinking an array to half when it's 1/4 full is the best and the most efficient way to preserve memory or something
-        //also check if size if bigger than 0 as 0 == 0/4
+        // shrinking an array to half when it's 1/4 full is the best and the most efficient way to preserve memory or something
+        // also check if size if bigger than 0 as 0 == 0/4
         if (this.n > 0 && this.n == this.items.length / 4) {
             resize(this.items.length / 2);
         }
@@ -71,7 +78,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void resize(int capacity) {
-        Item[] enlarged = (Item[])(new Object[capacity]);
+        Item[] enlarged = (Item[]) (new Object[capacity]);
 
         for (int i = 0; i < this.n; i++) {
             enlarged[i] = this.items[i];
@@ -86,8 +93,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class RQueueIterator implements Iterator<Item> {
-        private Item[] iteratorItems = (Item[])(new Object[n]);
-        private int iteratorN = n;
+        private Item[] iteratorItems = (Item[]) (new Object[n]);
+        private int iteratorN = 0;
 
         public RQueueIterator() {
             /*
@@ -103,15 +110,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return this.iteratorN != 0;
+            return this.iteratorN < n;
         }
 
         @Override
         public Item next() {
             if (!this.hasNext()) throw new NoSuchElementException();
 
-            this.iteratorN--;
-            return this.iteratorItems[this.iteratorN];
+            // to be honest there are various ways to implement this
+            Item item = this.iteratorItems[this.iteratorN];
+            this.iteratorN++;
+
+            return item;
         }
 
         @Override
@@ -127,6 +137,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue("a");
         rq.enqueue("b");
         rq.enqueue("c");
+        rq.enqueue("d");
+        rq.enqueue("e");
         System.out.println(rq.dequeue());
+        System.out.println("-----");
+        rq.forEach(System.out::println);
     }
 }

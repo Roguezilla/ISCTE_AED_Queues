@@ -46,7 +46,7 @@ public class Deque<Item> implements Iterable<Item> {
         this.firstNode = new Node();
         this.firstNode.item = item;
 
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             this.lastNode = this.firstNode;
         } else {
             oldFirstNode.prevNode = this.firstNode;
@@ -73,7 +73,7 @@ public class Deque<Item> implements Iterable<Item> {
         this.lastNode = new Node();
         this.lastNode.item = item;
 
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             this.firstNode = this.lastNode;
         } else {
             oldLastNode.nextNode = this.lastNode;
@@ -90,20 +90,20 @@ public class Deque<Item> implements Iterable<Item> {
         /*
         1.  save the item of the first node as we will have to remove it
         2.  decrement the size of the queue
-        3.1 if the queue isnt empty then we set the current first node to its next node and now that
+        3.1 if the queue is empty then we delete both nodes by setting them to null
+        3.2 if the queue isnt empty then we set the current first node to its next node and now that
             our first node is the next node of the old first node we delete the old first node by
             setting the previous node of the current first node to null
-        3.2 if the queue is empty then we delete both nodes by setting them to null
         */
         Item item = this.firstNode.item;
         this.size--;
 
-        if (!this.isEmpty()) {
-            this.firstNode = this.firstNode.nextNode;
-            this.firstNode.prevNode = null;
-        } else {
+        if (this.isEmpty()) {
             this.firstNode = null;
             this.lastNode = null;
+        } else {
+            this.firstNode = this.firstNode.nextNode;
+            this.firstNode.prevNode = null;
         }
 
         return item;
@@ -116,20 +116,20 @@ public class Deque<Item> implements Iterable<Item> {
         /*
         1.  save the item of the last node as we will have to remove it
         2.  decrement the size of the queue
-        3.1 if the queue isnt empty then we set the current last node to its previous node and now that
+        3.1 if the queue is empty then we delete both nodes by setting them to null
+        3.2 if the queue isnt empty then we set the current last node to its previous node and now that
             our last node is the previous node of the old last node we delete the old last node by
             setting the next node of the current last node to null
-        3.2 if the queue is empty then we delete both nodes by setting them to null
         */
         Item item = this.lastNode.item;
         this.size--;
 
-        if (!this.isEmpty()) {
-            this.lastNode = this.lastNode.prevNode;
-            this.lastNode.nextNode = null;
-        } else {
+        if (this.isEmpty()) {
             this.firstNode = null;
             this.lastNode = null;
+        } else {
+            this.lastNode = this.lastNode.prevNode;
+            this.lastNode.nextNode = null;
         }
 
         return item;
@@ -186,5 +186,11 @@ public class Deque<Item> implements Iterable<Item> {
         System.out.println("Removed: " + d.removeFirst());
         System.out.println("Removed: " + d.removeLast());
         d.forEach(System.out::println);
+        System.out.println("-----");
+        d.addFirst("4");
+        d.addFirst("3");
+        d.addLast("6");
+        d.forEach(System.out::println);
+
     }
 }
