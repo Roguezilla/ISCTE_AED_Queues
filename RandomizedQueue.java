@@ -58,7 +58,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             this.n--;
             this.items[idx] = this.items[n];
             this.items[n] = null;
-        gives more points of coursera
+        gives more points on coursera
         */
 
         // shrinking an array to half when it's 1/4 full is the best and the most efficient way to preserve memory or something
